@@ -12,7 +12,7 @@ using namespace std;
 
 string folder_name;
 
-void create_hash_folder(int n , int s){
+void create_hash_folder(int n){
     error_code ec;
     bool created = filesystem::create_directories(filesystem::path(folder_name));
 
@@ -75,11 +75,15 @@ void put_string_into_bucket(string str, int n,int s){
 
 
 int main() {
-    int n,s;
-    cout<<"Enter number of hash buckets 'n' and bucket size 's'";
-    cin>>n>>s;
+    int n=0,s=0;
+    cout<<"Enter number of hash buckets 'n' and bucket size 's':\n";
+    while (!(cin >> n >> s) || n <= 0 || s <= 0) {
+        cin.clear();
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        cout << "Invalid n or s!\nEnter number of hash buckets 'n' and bucket size 's':\n";
+    }
     folder_name = "hash(" + to_string(n) + "," + to_string(s) + ")";
-    create_hash_folder(n,s);
+    create_hash_folder(n);
     string str;
     cout<<"Please enter the string:"<<'\n';
     while(cin>>str){
@@ -87,6 +91,7 @@ int main() {
             cout << "Too large to fit in any bucket!\nPlease enter the string:\n";
             continue;
         }
+        
         put_string_into_bucket(str,n,s);
         cout<<"Please enter the string:"<<'\n';
         
