@@ -81,7 +81,7 @@ pair<filesystem::path , string> find_empty_bucket(string str, int n ,int s){
         return {path,file_name};
     }
     
-    if(filesystem::exists(overflow_state_path)){
+    if(filesystem::exists(overflow_state_path) && overflow_state.size()==n+1){
         int overflow_id = overflow_state[bucket_id];
         string file = get_overflow_bucket_name(bucket_id,overflow_id);
         path = filesystem::path(folder_name)/file;
